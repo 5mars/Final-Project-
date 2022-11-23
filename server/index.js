@@ -2,7 +2,12 @@ const express = require('express');
 const helmet = require("helmet");
 const morgan = require("morgan");
 
-const port = 8000;
+const PORT = 8000;
+
+//import handles here:
+const {
+hello
+} = require("./handlers.js");
 
 express()
 
@@ -10,11 +15,7 @@ express()
 .use(helmet())
 .use(morgan('tiny'))
 
-//start servers endpoints here
-.get('/hello', (req, res) => {
-    res.status(200).json({status: 200, message: "Hello World!"})
-})
+//write endpoints below 
+.get('/hello', hello)
 
-.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-});
+.listen(PORT, () => console.info(`Listening on port ${PORT}`));
