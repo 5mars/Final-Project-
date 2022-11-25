@@ -7,7 +7,12 @@ import NavBar from "./NavBar";
 import Homepage from "./HomePage";
 import Explore from "./Explore";
 import Discover from "./Discover";
-import Inspiration from "./Inspiration";
+import Feed from "./Feed";
+import SignUp from "./SignUp";
+import SignIn from "./SignIn";
+import Forgot from "./Forgot";
+import Profile from "./Profile";
+import AboutUs from "./AboutUs";
 
 const App = () => {
   return (
@@ -19,7 +24,12 @@ const App = () => {
             <Route path="/" element={<Homepage/>}></Route>
             <Route path="/explore" element={<Explore/>}></Route>
             <Route path="/discover" element={<Discover/>}></Route>
-            <Route path="/inspiration" element={<Inspiration/>}></Route>
+            <Route path="/feed" element={<Feed/>}></Route>
+            <Route path="/signup" element={<SignUp/>}></Route>
+            <Route path="/signin" element={<SignIn/>}></Route>
+            <Route path="/forgot" element={<Forgot/>}></Route>
+            <Route path="/profile" element={<Profile/>}></Route>
+            <Route path="/aboutus" element={<AboutUs/>}></Route>
           </Routes>
         </Main>
     </BrowserRouter>

@@ -1,9 +1,10 @@
 import styled from "styled-components"
 import Footer from "./Footer";
-const Inspiration = () => {
+
+const Feed = () => {
     return (
         <Container>
-            Inspiration
+            Feed
             <Footer/>
         </Container>
     )
@@ -16,4 +17,4 @@ padding: 0.5rem;
 `
 
 
-export default Inspiration;
+export default Feed;

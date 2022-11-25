@@ -9,6 +9,7 @@ const NavBar = () => {
 
     const handleClick = () => {
         setState(!state)
+        console.log(state)
     }
 
     return (
@@ -27,7 +28,7 @@ const NavBar = () => {
                             <Nav to="/discover">Discover</Nav>
                         </Item>
                         <Item>
-                            <Nav to="/inspiration">Inspiration</Nav>
+                            <Nav to="/feed">Feed</Nav>
                         </Item>
                     </LeftList>
                 </Left>
@@ -44,6 +45,7 @@ const NavBar = () => {
                     </RightList>
                 </Right>
             </Navbar>
+            {state === true && <BurgerMenu handleClick={handleClick}/>}
         </Container>
     )
 }
