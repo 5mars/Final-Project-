@@ -3,10 +3,13 @@ import {FiAlignJustify, FiSearch} from "react-icons/fi"
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import BurgerMenu from "./BurgerMenu";
+import { useAuth0 } from "@auth0/auth0-react";
+import LogInBtn from "./LogInBtn";
+import LogOutBtn from "./LogOutBtn";
+import TopLogo from "../Logo.svg"
 
 const NavBar = () => {
     const [state, setState] = useState(false);
-
     const handleClick = () => {
         setState(!state)
         console.log(state)
@@ -17,7 +20,8 @@ const NavBar = () => {
             <Navbar>
                 <Left>
                     <NavLogo to="/">
-                        <Logo>Tattoo</Logo>
+                        {/* <Logo>TattooWix</Logo> */}
+                        <MainLogo src={TopLogo}/>
                     </NavLogo>
 
                     <LeftList>
@@ -35,10 +39,11 @@ const NavBar = () => {
 
                 <Right>
                     <RightList>
-                        <Button>
-                            <FiSearch size={25}/>
-                        </Button>
-                        
+                        {/* <Button>
+                            <FiSearch size={25}/> 
+                        </Button> */}
+                            <LogInBtn/>
+                            <LogOutBtn/>
                         <Button>
                             <FiAlignJustify size={25} onClick={handleClick}/>
                         </Button>
@@ -61,7 +66,10 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 `
-
+const MainLogo = styled.img`
+height: 5rem;
+margin-left: 3rem;
+`
 
 const Nav = styled(NavLink)`
 color: #E6E6E6;
@@ -98,7 +106,7 @@ const Left = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
-width: 70%;
+width: 50%;
 `
 
 const Logo = styled.h1`

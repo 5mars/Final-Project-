@@ -145,6 +145,6 @@ position: relative;
 const Img = styled.img`
 position: absolute;
 width: 40%;
-margin-top: -30%;
+margin-top: -35%;
 `
 export default SignUp;

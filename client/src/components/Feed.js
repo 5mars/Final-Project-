@@ -1,10 +1,12 @@
 import styled from "styled-components"
 import Footer from "./Footer";
-
 const Feed = () => {
     return (
         <Container>
-            Feed
+            <Main>
+                <Title>Feed</Title>
+
+            </Main>
             <Footer/>
         </Container>
     )
@@ -13,8 +15,15 @@ const Feed = () => {
 
 //styling 
 const Container = styled.div`
-padding: 0.5rem;
-`
 
+`
+const Title = styled.h1`
+    color: #F65D5A;
+`
+const Main = styled.div`
+background-color: #E6E6E6;
+border-radius: 1rem;
+padding: 1rem;
+`
 
 export default Feed;

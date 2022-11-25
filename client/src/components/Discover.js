@@ -15,7 +15,7 @@ const Discover = () => {
 
 //styling 
 const Container = styled.div`
-padding: 0.5rem;
+
 `
 const Title = styled.h1`
     color: #F65D5A;

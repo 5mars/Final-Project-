@@ -13,6 +13,7 @@ import SignIn from "./SignIn";
 import Forgot from "./Forgot";
 import Profile from "./Profile";
 import AboutUs from "./AboutUs";
+import Error from "./Error";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/forgot" element={<Forgot/>}></Route>
             <Route path="/profile" element={<Profile/>}></Route>
             <Route path="/aboutus" element={<AboutUs/>}></Route>
+            <Route path="/error" element={<Error/>}></Route>
           </Routes>
         </Main>
     </BrowserRouter>

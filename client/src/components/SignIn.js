@@ -2,8 +2,12 @@ import styled from "styled-components"
 import Footer from "./Footer";
 import { NavLink } from "react-router-dom";
 import auth from "../unDraw/authentification.svg"
+import {useAuth0} from "@auth0/auth0-react"
+
+
 
 const SignIn = () => {
+    // const { logInWithRedirect, isAuthenticated} = useAuth0();
     return (
         <Container>
             <Master>
@@ -30,7 +34,6 @@ const SignIn = () => {
                     <Nav to="/signup">Don't have an account?</Nav>
                     <Nav to="/forgot">Forgot password?</Nav>
                 </BottomDiv>
-
             </Main>
 
             <ImgDiv>

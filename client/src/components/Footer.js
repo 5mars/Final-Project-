@@ -4,25 +4,25 @@ import { NavLink } from "react-router-dom"
 const Footer = () => {
     return (
         <Container>
-            <Contact>
-                <Title>Contact</Title>
-                <Email>support@tattoo.ca</Email>
-                <Nav to="/aboutus">About Us</Nav>
-            </Contact>
+                <Contact>
+                    <Title>Contact</Title>
+                    <Email>support@tattoo.ca</Email>
+                    <Nav to="/aboutus">About Us</Nav>
+                </Contact>
 
-            <Pages>
-                <Title>Navigation</Title>
-                <Nav to="/">Homepage</Nav>
-                <Nav to="/explore">Explore</Nav>
-                <Nav to="/discover">Discover</Nav>
-                <Nav to="/feed">Feed</Nav>
-            </Pages>
+                <Pages>
+                    <Title>Navigation</Title>
+                    <Nav to="/">Homepage</Nav>
+                    <Nav to="/explore">Explore</Nav>
+                    <Nav to="/discover">Discover</Nav>
+                    <Nav to="/feed">Feed</Nav>
+                </Pages>
 
-            <Legal>
-                <Title>Legal</Title>
-                <Nav to="#">Terms & Conditions</Nav>
-                <Nav to="#">Privacy Policy</Nav>
-            </Legal>
+                <Legal>
+                    <Title>Legal</Title>
+                    <Nav to="#">Terms & Conditions</Nav>
+                    <Nav to="#">Privacy Policy</Nav>
+                </Legal>
         </Container>
     )
 }
@@ -30,14 +30,14 @@ const Footer = () => {
 
 //styling 
 const Container = styled.div`
+position: relative;
+bottom: 0;
 display: flex;
 justify-content: space-between;
-padding: 0.5rem;
 width: 100%;
 background-color: #044753;
 color: white;
 `
-
 const Title = styled.h2`
 font-size: 20px;
 `
