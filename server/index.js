@@ -9,7 +9,10 @@ const PORT = 8000;
 
 //import handles here:
 const {
-hello
+getAllUsers,
+getUser,
+getCurrentUser,
+editUser
 } = require("./handlers.js");
 
 express()
@@ -19,8 +22,10 @@ express()
 .use(morgan('tiny'))
 
 //write endpoints below 
-.get('/hello', hello)
-// .get("/", getUsername)
+.get("/api/get-users", getAllUsers)
+.get("/api/get-user/:userId", getUser)
+.get("/api/currentUser", getCurrentUser)
+.patch("/api/get-user/:userId", editUser)
 
 //catch all endpoints 
 .get("*", (req, res) => {

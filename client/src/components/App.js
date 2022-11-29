@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
+import { useAuth0 } from "@auth0/auth0-react";
+import { UserContext } from "./Context";
 
 import GlobalStyle from "../GlobalStyles";
 import NavBar from "./NavBar";
@@ -15,26 +17,30 @@ import Profile from "./Profile";
 import AboutUs from "./AboutUs";
 import Error from "./Error";
 
+
 const App = () => {
+
+  const [currentUser, setCurrentUser] = useState(null);
   return (
-    <BrowserRouter>
-      <GlobalStyle/>
-      <NavBar/>
-        <Main>
-          <Routes>
-            <Route path="/" element={<Homepage/>}></Route>
-            <Route path="/explore" element={<Explore/>}></Route>
-            <Route path="/discover" element={<Discover/>}></Route>
-            <Route path="/feed" element={<Feed/>}></Route>
-            <Route path="/signup" element={<SignUp/>}></Route>
-            <Route path="/signin" element={<SignIn/>}></Route>
-            <Route path="/forgot" element={<Forgot/>}></Route>
-            <Route path="/profile" element={<Profile/>}></Route>
-            <Route path="/aboutus" element={<AboutUs/>}></Route>
-            <Route path="/error" element={<Error/>}></Route>
-          </Routes>
-        </Main>
-    </BrowserRouter>
+      <BrowserRouter>
+        <GlobalStyle/>
+        <NavBar/>
+          <Main>
+            <Routes>
+              <Route path="/" element={<Homepage/>}></Route>
+              <Route path="/explore" element={<Explore/>}></Route>
+              <Route path="/discover" element={<Discover/>}></Route>
+              <Route path="/feed" element={<Feed/>}></Route>
+              <Route path="/signup" element={<SignUp/>}></Route>
+              <Route path="/signin" element={<SignIn/>}></Route>
+              <Route path="/forgot" element={<Forgot/>}></Route>
+              <Route path="/profile" element={<Profile/>}></Route>
+              {/* <Route path="/editprofile" element={<EditProfile/>}></Route> */}
+              <Route path="/aboutus" element={<AboutUs/>}></Route>
+              <Route path="/error" element={<Error/>}></Route>
+            </Routes>
+          </Main>
+      </BrowserRouter>
   );
 };
 

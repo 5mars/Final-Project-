@@ -2,7 +2,8 @@ import styled from "styled-components"
 import Footer from "./Footer";
 import {FiArrowRight } from "react-icons/fi"
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState, useEffect } from "react";
 import sad from "../unDraw/sad.svg";
 import browsing from "../unDraw/browsing.svg";
 import message from "../unDraw/message.svg";
@@ -10,8 +11,26 @@ import fireworks from "../unDraw/firework.svg";
 import group from "../unDraw/group.svg";
 import discover from "../unDraw/discover.svg";
 import resume from "../unDraw/resume.svg";
+import { UserContext } from "./Context";
 
 const Homepage = () => {
+    const {isAuthenticated, user} = useAuth0();
+    const [profileId, setProfileId] = useState(null);
+
+    const {currentUser, setCurrentUser, fetchUser} = React.useContext(UserContext);
+    // useEffect(() => {
+    //     user &&
+    //     setProfileId(user)
+    // }, [user])
+
+    useEffect(() => {
+        user && fetch(`/api/get-user/${user.email}`)
+        .then(res => res.json())
+        .then(data => {
+            setCurrentUser(data.data)
+        })
+    }, [user])
+
     return (
         <Container>
             <Section>
@@ -68,7 +87,6 @@ const Homepage = () => {
                     <FiArrowRight size={30}/>
                 </Nav>
             </FinalSection>
-
             <Footer/>
         </Container>
     )

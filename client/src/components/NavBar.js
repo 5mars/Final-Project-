@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import {FiAlignJustify, FiSearch} from "react-icons/fi"
-import { NavLink, useNavigate } from "react-router-dom";
+import {FiAlignJustify} from "react-icons/fi"
+import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import BurgerMenu from "./BurgerMenu";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -12,7 +12,6 @@ const NavBar = () => {
     const [state, setState] = useState(false);
     const handleClick = () => {
         setState(!state)
-        console.log(state)
     }
 
     return (
@@ -20,7 +19,6 @@ const NavBar = () => {
             <Navbar>
                 <Left>
                     <NavLogo to="/">
-                        {/* <Logo>TattooWix</Logo> */}
                         <MainLogo src={TopLogo}/>
                     </NavLogo>
 
@@ -39,9 +37,6 @@ const NavBar = () => {
 
                 <Right>
                     <RightList>
-                        {/* <Button>
-                            <FiSearch size={25}/> 
-                        </Button> */}
                             <LogInBtn/>
                             <LogOutBtn/>
                         <Button>

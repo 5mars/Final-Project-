@@ -1,13 +1,16 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
-
+import { NavLink } from "react-router-dom";
 
 const LogOutBtn = () => {
     const { logout, isAuthenticated, user} = useAuth0();
-    console.log(user)
+
     return (
         isAuthenticated && (
-        <Button onClick={() => logout()}>log out</Button>
+            <>
+                <Hello to="/profile">Hello, {user.nickname}</Hello>
+                <Button onClick={() => logout()}>Log out</Button>
+            </>
         )
     )
 }
@@ -19,8 +22,15 @@ color: #F65D5A;
 font-size: 16px;
 cursor: pointer;
 &:hover {
-    color: #F42D2A;
+    color: #F98D8B;
 }`
 
+const Hello = styled(NavLink)`
+color: #E6E6E6;
+text-decoration: none;
+cursor: pointer;
+&:hover {
+    color: lightgray;
+}`
 
 export default LogOutBtn;
