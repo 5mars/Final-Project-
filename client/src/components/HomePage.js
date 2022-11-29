@@ -15,21 +15,17 @@ import { UserContext } from "./Context";
 
 const Homepage = () => {
     const {isAuthenticated, user} = useAuth0();
-    const [profileId, setProfileId] = useState(null);
+    // const [profileId, setProfileId] = useState(null);
 
-    const {currentUser, setCurrentUser, fetchUser} = React.useContext(UserContext);
+    // const {currentUser, setCurrentUser, fetchUser} = React.useContext(UserContext);
+
     // useEffect(() => {
-    //     user &&
-    //     setProfileId(user)
+    //     user && fetch(`/api/get-user/${user.email}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         setCurrentUser(data.data)
+    //     })
     // }, [user])
-
-    useEffect(() => {
-        user && fetch(`/api/get-user/${user.email}`)
-        .then(res => res.json())
-        .then(data => {
-            setCurrentUser(data.data)
-        })
-    }, [user])
 
     return (
         <Container>

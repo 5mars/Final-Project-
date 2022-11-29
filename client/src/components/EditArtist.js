@@ -3,57 +3,44 @@ import Footer from "./Footer";
 import textField from "../unDraw/textfield.svg"
 import profilePic from "../unDraw/profilePic.svg"
 import { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 
-const EditProfile = ({handleEdit}) => {
+
+const EditArtist = () => {
 // the save change button will post data to mongo db
-const [formData, setFormData] = useState({});
-const {isAuthenticated, user} = useAuth0();
+const [changes, setChanges] = useState(null);
 
-const handleSubmit = (e, formData) => {
-    //patch but same format as a post 
-    e.preventDefault();
-    //PATCH in server 
-    fetch("/api/edit-user", {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({formData, email: user.email}),
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-}
+useEffect(() => {
 
-const handleChange = (key, value) => {
-    setFormData({...formData, 
-        [key]: value
-        });
-    }
-
+})
     return (
         <Container>
             <ProfileCard>
                 <ProfilePicImg src={profilePic} alt="Profile picture"/>
                 
                 <Infos>
-                    <Form onSubmit={(e) => handleSubmit(e, formData)}>
+                    <Form>
                         <Label for="name">Name</Label>
-                            <Input required onChange={(e) => {handleChange(e.target.id, e.target.value)}} id="name" name="name" type="text" placeholder="Enter your name..." ></Input>
+                        <Input required name="name" type="text" placeholder="Enter your name..."></Input>
+
+                        <Label for="url">Url</Label>
+                        <Input required name="url" type="text" placeholder="Url..."></Input>
+
+                        <Label for="shopName">Shop Name</Label>
+                        <Input required name="shopName" type="text" placeholder="Enter your shop name..."></Input>
 
                         <Label for="gender">Gender</Label>
-                        <Input onChange={(e) => {handleChange(e.target.id, e.target.value)}} name="gender" type="text" id="gender" placeholder="Enter your gender..."></Input>
+                        <Input name="gender" type="text" placeholder="Enter your gender..."></Input>
 
                         <Label for="location">Location</Label>
-                        <Input onChange={(e) => {handleChange(e.target.id, e.target.value)}}  name="location" type="text" id="location" placeholder="Enter your city..."></Input>
+                        <Input required name="location" type="text" placeholder="Enter your city..."></Input>
 
                         <Label for="about">About</Label>
-                        <Input onChange={(e) => {handleChange(e.target.id, e.target.value)}}  name="about" type="text" id="about" placeholder="Tell us about you..."></Input>
+                        <Input name="about" type="text" placeholder="Tell us about you..."></Input>
                     </Form>
                 </Infos>
 
                     <BtnDiv>
-                        <Button type="submit" onClick={handleSubmit}>Save changes</Button>
+                        <Button>Save changes</Button>
                     </BtnDiv>
 
             </ProfileCard>
@@ -127,4 +114,4 @@ width: 30%;
     outline: none;
 }
 `
-export default EditProfile;
+export default EditArtist;

@@ -57,6 +57,10 @@ cursor: pointer;
 &:active {
     color: #F65D5A;
 }
+
+&:hover {
+    color: gray;
+}
 `
 const Text = styled.p`
 color: #F65D5A;

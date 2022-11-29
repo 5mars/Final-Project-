@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -16,11 +16,22 @@ import Forgot from "./Forgot";
 import Profile from "./Profile";
 import AboutUs from "./AboutUs";
 import Error from "./Error";
-
+import ArtistProfile from "./ArtistProfile";
 
 const App = () => {
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const {setCurrentUser, fetchUser} = React.useContext(UserContext);
+  const {isAuthenticated, user} = useAuth0();
+
+  useEffect(() => {
+      user && fetch(`/api/get-user/${user.email}`)
+      .then(res => res.json())
+      .then(data => {
+          setCurrentUser(data.data)
+      })
+  }, [user])
+
+  
   return (
       <BrowserRouter>
         <GlobalStyle/>
@@ -35,7 +46,7 @@ const App = () => {
               <Route path="/signin" element={<SignIn/>}></Route>
               <Route path="/forgot" element={<Forgot/>}></Route>
               <Route path="/profile" element={<Profile/>}></Route>
-              {/* <Route path="/editprofile" element={<EditProfile/>}></Route> */}
+              <Route path="/artistprofile" element={<ArtistProfile/>}></Route>
               <Route path="/aboutus" element={<AboutUs/>}></Route>
               <Route path="/error" element={<Error/>}></Route>
             </Routes>

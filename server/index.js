@@ -12,7 +12,9 @@ const {
 getAllUsers,
 getUser,
 getCurrentUser,
-editUser
+editUser,
+addPost,
+getArtists
 } = require("./handlers.js");
 
 express()
@@ -25,8 +27,10 @@ express()
 .get("/api/get-users", getAllUsers)
 .get("/api/get-user/:userId", getUser)
 .get("/api/currentUser", getCurrentUser)
-.patch("/api/get-user/:userId", editUser)
+.patch("/api/edit-user", editUser)
+.post("/api/add-post", addPost)
 
+.get("/api/get-artists", getArtists)
 //catch all endpoints 
 .get("*", (req, res) => {
     res.status(404).json({status: 404, message: "This is obviously not what you are looking for..."});

@@ -1,7 +1,13 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { UserContext } from "./Context";
+import React, { useState, useEffect } from "react";
 
 const BurgerMenu = ({handleClick}) => {
+    const {setCurrentUser, currentUser} = React.useContext(UserContext);
+    const {isAuthenticated, user} = useAuth0();
+
     return (
         <Container>
             <Menu>
@@ -20,7 +26,7 @@ const BurgerMenu = ({handleClick}) => {
                 </Middle>
 
                 <Bottom>
-                <Nav onClick={handleClick} to="/profile">Profile</Nav>
+                {isAuthenticated &&<Nav onClick={handleClick} to="/profile">Profile</Nav>}
                 <Nav onClick={handleClick} to="/aboutus">About Us</Nav>
                 </Bottom>
             </Menu>

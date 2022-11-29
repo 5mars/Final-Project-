@@ -62,16 +62,55 @@ const getCurrentUser = async (req, res) => {
     client.close();
     }
 
+
+
 const editUser = async (req, res) => {
+    const {name, gender, location, about, email} = req.body;
+
     try {
         await client.connect();
         const db = client.db("finalProject");
-        const result = await db.collection("users").updateOne().toArray;
+        const query = {email};
+        const newValues = {$set: {name, gender, location, about}};
+        const result = await db.collection("users").updateOne(query, newValues);
 
         res.status(200).json({status: 200, data: result, message: "User successfully updated!"})
 
     } catch (err) {
-        res.status.json({status: 500, message: "Couldn't update user's information..."})
+        res.status(500).json({status: 500, message: "Couldn't update user's information..."})
+    }
+    client.close();
+}
+
+
+
+
+//not quire sure if that's how posting work 
+const addPost = async (req, res) => {
+    const body = {id: uuidv4(), ...req.body};
+    try {
+        await client.connect();
+        const db = client.db("finalProject")
+        const result = await db.collection("posts").insertOne(body);
+        res.status(200).json({status: 200, data: body, message: "Post successfull!"})
+    } catch (err) {
+        res.status(500).json({status: 500, message: "Couldn't post..."})
+    }
+    client.close()
+}
+
+
+const getArtists = async (req, res) => {
+    try {
+        await client.connect();
+        const db = client.db("finalProject")
+        const result = await db.collection("artists").find().toArray();
+
+        res.status(200).json({status: 200, data: result, message: "Artists successfully retrieved!"})
+
+        
+    } catch (err) {
+        res.status(500).json({status: 500, message: "Couldn't get all artists..."})
     }
     client.close();
 }
@@ -80,5 +119,7 @@ module.exports = {
 getAllUsers,
 getUser,
 getCurrentUser,
-editUser
+editUser,
+addPost,
+getArtists
 };
