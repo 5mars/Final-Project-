@@ -44,6 +44,7 @@ background-color: #E6E6E6;
 padding: 1rem;
 border-radius: 1rem;
 margin: 5%;
+filter: drop-shadow(10px 5px 29px #000);
 `
 const IconsDiv = styled.div`
 display: flex;

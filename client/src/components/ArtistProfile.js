@@ -7,15 +7,28 @@ import React, { useState, useEffect } from "react";
 import EditArtist from "./EditArtist";
 import { UserContext } from "./Context";
 import { NavLink } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 
 const ArtistProfile = () => {
 
 const [edit, setEdit] = useState(false);
+const [artist, setArtist] = useState(null)
+
+
 const handleEdit = () => {
     setEdit(!edit)
 }
 
+const {artistId} = useParams();
+
+//fetch specific artist infos
+useEffect(()=> {
+    fetch(`/api/${artistId}`)
+    .then(res => res.json())
+    .then((data) => {
+        setArtist(data.data)
+    })
+}, [])
 
     return (
         <Container>
@@ -27,31 +40,33 @@ const handleEdit = () => {
                     </Button>
                 </TopDiv>
 
-        {!edit ? 
+        {!edit? 
         <>
                 <ProfilePicImg src={profilePic} alt="Profile picture"/>
                 {edit && <EditArtist/>}
+                {artist ? <>
                 <Infos>
-                    <Name>Name</Name>
-                    <Text>Gender</Text>
-                    <Text>Email</Text>
+                    <Name>{artist.name}</Name>
+                    <Text>{artist.gender}</Text>
+                    <Text>{artist.style}</Text>
                     <a>shop url</a>
                     <Location>
                         <FiMapPin/>
-                        <Text>Location</Text>
+                        <Text>{artist.location}</Text>
                     </Location>
                 </Infos>
 
                 <About>
                     <Subtitle>About</Subtitle>
+                    <Text>{artist.about}</Text>
                 </About>
 
                 <BottomDiv>
-                    <Nav to="#">Post</Nav>
-                    <Nav to="#">Book Now</Nav>
+                    <Nav to="#">Shop</Nav>
+                    <Nav to={`/${artistId}/booking`}>Book Now</Nav>
                     <Nav to="#">Gallery</Nav>
                 </BottomDiv>
-
+</> : <Loading>Loading artist info...</Loading>}
                 </>
                 : <EditArtist/>}
             </ProfileCard>
@@ -70,6 +85,7 @@ const handleEdit = () => {
 const Container = styled.div`
 padding: 0.5rem;
 `
+
 const Loading = styled.h1`
 color: #F65D5A;
 text-align: center;

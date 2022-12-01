@@ -1,16 +1,16 @@
 import styled from "styled-components"
-import Footer from "./Footer";
 import textField from "../unDraw/textfield.svg"
 import profilePic from "../unDraw/profilePic.svg"
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const EditProfile = ({handleEdit}) => {
+const EditProfile = ({handleEdit, setEdit}) => {
 // the save change button will post data to mongo db
 const [formData, setFormData] = useState({});
-const {isAuthenticated, user} = useAuth0();
+const {user} = useAuth0();
+// const [currentUser, setCurrentUser] = useState(null)
 
-const handleSubmit = (e, formData) => {
+const handleSubmit = (e) => {
     //patch but same format as a post 
     e.preventDefault();
     //PATCH in server 
@@ -19,10 +19,13 @@ const handleSubmit = (e, formData) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({formData, email: user.email}),
+        body: JSON.stringify({...formData, email: user.email}),
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then((data) => {
+        console.log(data)
+        setEdit(false)
+    })
 }
 
 const handleChange = (key, value) => {
@@ -31,17 +34,18 @@ const handleChange = (key, value) => {
         });
     }
 
+
     return (
         <Container>
             <ProfileCard>
                 <ProfilePicImg src={profilePic} alt="Profile picture"/>
                 
                 <Infos>
-                    <Form onSubmit={(e) => handleSubmit(e, formData)}>
-                        <Label for="name">Name</Label>
+                    <Form onSubmit={(e) => handleSubmit(e)}>
+                        <Label htmlFor="name">Name</Label>
                             <Input required onChange={(e) => {handleChange(e.target.id, e.target.value)}} id="name" name="name" type="text" placeholder="Enter your name..." ></Input>
 
-                        <Label for="gender">Gender</Label>
+                        <Label htmlFor="gender">Gender</Label>
                         <Input onChange={(e) => {handleChange(e.target.id, e.target.value)}} name="gender" type="text" id="gender" placeholder="Enter your gender..."></Input>
 
                         <Label for="location">Location</Label>
@@ -49,13 +53,12 @@ const handleChange = (key, value) => {
 
                         <Label for="about">About</Label>
                         <Input onChange={(e) => {handleChange(e.target.id, e.target.value)}}  name="about" type="text" id="about" placeholder="Tell us about you..."></Input>
+                        <BtnDiv>
+                            <Button type="submit" 
+                            onClick={()=> handleSubmit}>Save changes</Button>
+                        </BtnDiv>
                     </Form>
                 </Infos>
-
-                    <BtnDiv>
-                        <Button type="submit" onClick={handleSubmit}>Save changes</Button>
-                    </BtnDiv>
-
             </ProfileCard>
 
         </Container>

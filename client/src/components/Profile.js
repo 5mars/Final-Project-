@@ -12,11 +12,28 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Profile = () => {
 
     const [edit, setEdit] = useState(false);
+    const [theUser, setTheUser] = useState(null);
+
     const handleEdit = () => {
         setEdit(!edit)
+        user && fetch(`/api/get-user/${user.email}`)
+        .then(res => res.json())
+        .then(data => {
+            setTheUser(data.data)
+        })
     }
-    const {isAuthenticated} = useAuth0();
+
+    const {isAuthenticated, user} = useAuth0();
     const {currentUser} = React.useContext(UserContext);
+
+    useEffect(() => {
+        user && fetch(`/api/get-user/${user.email}`)
+        .then(res => res.json())
+        .then(data => {
+            setTheUser(data.data)
+            console.log(data)
+        })
+    }, [user])
 
     return (
         <>{!isAuthenticated && <Loading>Please Sign In</Loading>}
@@ -33,19 +50,20 @@ const Profile = () => {
         {!edit ? 
         <>
                 <ProfilePicImg src={profilePic} alt="Profile picture"/>
-                {edit && <EditProfile handleEdit={handleEdit}/>}
+                {edit && <EditProfile setEdit={setEdit} handleEdit={handleEdit}/>}
                 <Infos>
-                    <Name>Name</Name>
-                    <Text>Gender</Text>
+                    <Name>{theUser ? theUser.name : "Name"}</Name>
+                    <Text>{theUser ? theUser.gender : "Gender"}</Text>
                     <Text>{currentUser.email}</Text>
                     <Location>
                         <FiMapPin/>
-                        <Text>Location</Text>
+                        <Text>{theUser ? theUser.location : "Location"}</Text>
                     </Location>
                 </Infos>
 
                 <About>
                     <Subtitle>About</Subtitle>
+                    <Text>{theUser ? theUser.about : ""}</Text>
                 </About>
 
                 <FeedDiv>

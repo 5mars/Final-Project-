@@ -14,7 +14,10 @@ getUser,
 getCurrentUser,
 editUser,
 addPost,
-getArtists
+getArtists,
+getArtist,
+getSingleReservation,
+addReservation
 } = require("./handlers.js");
 
 express()
@@ -31,6 +34,10 @@ express()
 .post("/api/add-post", addPost)
 
 .get("/api/get-artists", getArtists)
+.get("/api/:artistId", getArtist)
+
+.get("/api/confirmation/:reservationId", getSingleReservation)
+.post("/api/add-reservation", addReservation)
 //catch all endpoints 
 .get("*", (req, res) => {
     res.status(404).json({status: 404, message: "This is obviously not what you are looking for..."});
