@@ -14,7 +14,7 @@ import resume from "../unDraw/resume.svg";
 import { UserContext } from "./Context";
 
 const Homepage = () => {
-    const {isAuthenticated, user} = useAuth0();
+    const {isAuthenticated, user, loginWithRedirect} = useAuth0();
 
     return (
         <Container>
@@ -67,10 +67,10 @@ const Homepage = () => {
                     <Text>Start your journey now</Text>
                 </TextDiv>
                 <Img className="last" src={group} alt="Svg Image"/>
-                <Nav to="/signup">
+
                     <SignUp>Sign Up</SignUp>
                     <FiArrowRight size={30}/>
-                </Nav>
+
             </FinalSection>
             <Footer/>
         </Container>

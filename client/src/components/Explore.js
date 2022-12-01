@@ -19,18 +19,22 @@ const Explore = () => {
     const [gender, setGender] = useState(null);
     const [location, setLocation] = useState(null);
     const [artists, setArtists] = useState([]);
+    // const [state, setState] = ({location: "", style: "", gender: ""})
 
     //different handlechange for every criteria 
     const handleChangeStyle = (e) => {
         setStyle(e.target.value);
+        // setState({...state, style: e.target.value})
     };
 
     const handleChangeLocation = (e) => {
         setLocation(e.target.value);
+        // setState({...state, location: e.target.value})
     };
 
     const handleChangeGender = (e) => {
         setGender(e.target.value);
+        // setState({...state, gender: e.target.value})
     };
 
     //fetch that get all artists 
@@ -48,6 +52,7 @@ const Explore = () => {
         return object;
     },{}));
 
+
     const byStyle = Object.values(artists.reduce((object, {style})=>{
         object[style]={style}
         return object;
@@ -57,22 +62,29 @@ const Explore = () => {
     const locationFilter = artists.filter((fil) => fil.location === location); 
     const styleFilter = artists.filter((fil) => fil.style === style);
     const genderFilter = artists.filter((fil) => fil.gender === gender);
+    
+
+    const mainFilter = (artistsArr) => {
+        const genre = [location, gender, style]
+        const filterGenre = genre.filter((fil) => fil !== null)
+        let artistFil
+        ["location", "style", "gender"].forEach((filterState) => {
+            artistFil = artists.filter(artist => {
+                console.log(artist[filterState])
+                console.log(filterState, "filter state here")
+                return artist[filterState] === filterState
+            })
+            console.log(artistFil)
+
+        })
+    }
 
     useEffect(() => {
-        let result = artists;
-        if (location) {
-            result = locationFilter;
-        }
-        if (style) {
-            result= styleFilter;
-        }
-        if (gender) {
-            result = genderFilter;
-        }
-        setArtists(result);
-    }, [gender, location, style])
+        mainFilter()
+    }, [location, style, gender])
 
     return (
+
         <Container>
             {!artists ? <Title>Loading...</Title> : 
             <>
@@ -80,7 +92,7 @@ const Explore = () => {
                 <DropDownDiv>
                     <Select onChange={handleChangeLocation}>
                         <option>By Location</option>
-                        {byLocation.map((loc) => {
+                        {artists && byLocation.map((loc) => {
                             return (
                                 <option key={loc.location}>{loc.location}</option>
                             )
@@ -88,7 +100,7 @@ const Explore = () => {
                     </Select>
                     <Select onChange={handleChangeStyle}>
                         <option>By Style</option>
-                        {byStyle.map((style) => {
+                        {artists && byStyle.map((style) => {
                             return (
                                 <option key={style.style}>{style.style}</option>
                             )
