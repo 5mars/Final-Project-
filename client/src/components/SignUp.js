@@ -14,7 +14,7 @@ const SignUp = () => {
                 
                 <Form>
                     <InputDiv>
-                        <Label for="name">Name</Label>
+                        <Label htmlFor="name">Name</Label>
                         <Input required name="name" type="text" placeholder="Enter your name..."></Input>
 
                         <Label for="city">City</Label>

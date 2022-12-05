@@ -12,6 +12,7 @@ import group from "../unDraw/group.svg";
 import discover from "../unDraw/discover.svg";
 import resume from "../unDraw/resume.svg";
 import { UserContext } from "./Context";
+import LogInBtn from "./LogInBtn";
 
 const Homepage = () => {
     const {isAuthenticated, user, loginWithRedirect} = useAuth0();
@@ -68,8 +69,10 @@ const Homepage = () => {
                 </TextDiv>
                 <Img className="last" src={group} alt="Svg Image"/>
 
-                    <SignUp>Sign Up</SignUp>
-                    <FiArrowRight size={30}/>
+                    <SignUpDiv>
+                        <Button onClick={()=> loginWithRedirect()}><SignUp>Sign Up</SignUp></Button>
+                        <FiArrowRight style={{color: "#F65D5A",}} size={30}/>
+                    </SignUpDiv>
 
             </FinalSection>
             <Footer/>
@@ -147,5 +150,20 @@ const Blop = styled.div`
 `
 const SignUp = styled.h1`
 
+`
+const SignUpDiv = styled.div`
+display: flex;
+align-items: center;
+`
+
+const Button = styled.button`
+background-color: inherit;
+border: none;
+color: #F65D5A;
+font-size: 16px;
+cursor: pointer;
+&:hover {
+    color: #F98D8B;
+}
 `
 export default Homepage

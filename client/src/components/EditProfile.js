@@ -4,11 +4,12 @@ import profilePic from "../unDraw/profilePic.svg"
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
+
 const EditProfile = ({handleEdit, setEdit}) => {
 // the save change button will post data to mongo db
 const [formData, setFormData] = useState({});
 const {user} = useAuth0();
-// const [currentUser, setCurrentUser] = useState(null)
+
 
 const handleSubmit = (e) => {
     //patch but same format as a post 
@@ -81,6 +82,7 @@ display: flex;
 flex-direction: column;
 justify-content: flex-start;
 `
+
 const Form = styled.form`
 display: flex;
 flex-direction: column;

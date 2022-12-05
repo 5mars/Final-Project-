@@ -17,7 +17,11 @@ addPost,
 getArtists,
 getArtist,
 getSingleReservation,
-addReservation
+addReservation,
+followArtist,
+buyItem, 
+getSingleTransaction,
+editArtist
 } = require("./handlers.js");
 
 express()
@@ -35,9 +39,18 @@ express()
 
 .get("/api/get-artists", getArtists)
 .get("/api/:artistId", getArtist)
+.patch("/api/:artistId", followArtist)
+// .patch("/api/:artistId", editArtist)
+
 
 .get("/api/confirmation/:reservationId", getSingleReservation)
-.post("/api/add-reservation", addReservation)
+.post("/api/add-reservation/:artistId", addReservation)
+
+.post("/api/buy-item/:artistId", buyItem)
+.get("/api/shopconfirmation/:transactionId", getSingleTransaction)
+
+
+
 //catch all endpoints 
 .get("*", (req, res) => {
     res.status(404).json({status: 404, message: "This is obviously not what you are looking for..."});

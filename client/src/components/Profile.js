@@ -31,7 +31,6 @@ const Profile = () => {
         .then(res => res.json())
         .then(data => {
             setTheUser(data.data)
-            console.log(data)
         })
     }, [user])
 
@@ -66,9 +65,9 @@ const Profile = () => {
                     <Text>{theUser ? theUser.about : ""}</Text>
                 </About>
 
-                <FeedDiv>
+                {/* <FeedDiv>
                     <Subtitle>Feed</Subtitle>
-                </FeedDiv>
+                </FeedDiv> */}
 
                 </>
                 : <EditProfile/>}
@@ -128,7 +127,7 @@ color: #F65D5A;
 }
 `
 const About = styled.div`
-
+padding-bottom: 1rem;
 `
 const Location = styled.div`
 display: flex;

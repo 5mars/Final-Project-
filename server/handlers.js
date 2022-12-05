@@ -82,8 +82,21 @@ const editUser = async (req, res) => {
     client.close();
 }
 
+// const editArtist = async (req, res) => {
+//     const {email, followedBy} = req.body;
+//     try {
 
-
+//         await client.connect();
+//         const db = client.db("finalProject");
+//         const query = {email};
+//         const newValue = {$set: {followedBy}};
+//         const result = await db.collection("artists").updateOne(query, newValue);
+//         res.status(200).json({status: 200, data: result, message: "artist successfully updated"})
+//     } catch (err) {
+//         res.status(500).json({status: 500, message: "Couldn't update artist..."})
+//     }
+//     client.close()
+// }
 
 //not quire sure if that's how posting work 
 const addPost = async (req, res) => {
@@ -134,8 +147,8 @@ const getSingleReservation = async (req, res) => {
     try {
         await client.connect();
         const db = client.db("finalProject");
-        const id = req.params.reservation;
-        
+        const id = req.params.reservationId;
+
         const result = await db.collection("reservations").findOne({id});
         
         result.data !== null ? 
@@ -149,8 +162,25 @@ const getSingleReservation = async (req, res) => {
 
     };
 
+// get confirmation after completing checkout
+const getSingleTransaction = async (req, res) => {
+try {
+    await client.connect();
+    const db = client.db("finalProject");
+    const id = req.params.transactionId;
+
+    const result = await db.collection("transactions").findOne({id});
+
+    res.status(200).json({status: 200, data: result, message: "Transaction successfully retrieved!"})
+} catch (err) {
+    res.status(500).json({status: 500, message: "Couldn't add reservation..."})
+}
+client.close();
+}
+
 const addReservation = async (req, res) => {
-    const body = { id: uuidv4(), ...req.body};
+    const body = { id: uuidv4(), ...req.body, withArtist: req.params};
+
     try{
         await client.connect();
         const db = client.db("finalProject")
@@ -163,6 +193,61 @@ const addReservation = async (req, res) => {
     }
     client.close()
 }
+
+//buy flash from artist
+const buyItem = async (req, res) => {
+    const body = { id: uuidv4(), ...req.body, fromArtist: req.params, price: "100$"};
+
+    try {
+        await client.connect();
+        const db = client.db("finalProject")
+
+        const result = await db.collection("transactions").insertOne(body)
+
+        res.status(200).json({status: 200, data: body, message: "Flash successfully bought!"})
+
+    } catch (err) {
+        res.status(500).json({status: 500, message: "Couldn't proceed with transaction..."})
+    }
+    client.close();
+}
+
+
+//patch USER following array 
+const followArtist = async (req, res) => {
+    const {email, following} = req.body;
+    const {artistId} = req.params;
+
+    try {
+        await client.connect();
+        const db = client.db("finalProject")
+        const query = {email}
+
+        const userVerify = await db.collection("users").findOne(query);
+
+        const checkFollow = userVerify.following.includes(artistId);
+
+        if (checkFollow) {
+            //update artist side 
+            const removeValue = {$pull: {following: artistId}}
+            const result = await db.collection("users").updateOne(query, removeValue);
+            const followArray = await db.collection("users").findOne(query);
+            res.status(400).json({status: 400, data: followArray.following, message: "Artist successfully removed!"})
+
+        } else {
+            //update artist side
+            const addValue = {$push: {following: artistId}};
+            const result = await db.collection("users").updateOne(query, addValue);
+            const followArray = await db.collection("users").findOne(query);
+            res.status(200).json({status: 200, data: followArray.following, message: "Artist successfully added!"})
+        }
+
+    } catch (err) {
+        res.status(500).json({status: 500, message: "Couldn't update user..."})
+    }
+    client.close()
+}
+
 //export handles here
 module.exports = {
 getAllUsers,
@@ -173,5 +258,9 @@ addPost,
 getArtists,
 getArtist, 
 getSingleReservation,
-addReservation
+addReservation,
+followArtist,
+buyItem,
+getSingleTransaction,
+// editArtist
 };

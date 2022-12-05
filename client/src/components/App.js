@@ -19,6 +19,12 @@ import Error from "./Error";
 import ArtistProfile from "./ArtistProfile";
 import Booking from "./Booking";
 import Confirmation from "./Confirmation";
+import Gallery from "./Gallery";
+import Shop from "./Shop";
+import Checkout from "./Checkout";
+import ShopConfirmation from "./ShopConfirmation";
+
+
 const App = () => {
 
   const {setCurrentUser, fetchUser} = React.useContext(UserContext);
@@ -32,7 +38,6 @@ const App = () => {
       })
   }, [user])
 
-  
   return (
       <BrowserRouter>
         <GlobalStyle/>
@@ -50,8 +55,12 @@ const App = () => {
               <Route path="/:artistId" element={<ArtistProfile/>}></Route>
               <Route path="/aboutus" element={<AboutUs/>}></Route>
               <Route path="/error" element={<Error/>}></Route>
-              {/* <Route path="/confirmation/:confirmationId" element={<Confirmation/>}></Route> */}
+              <Route path="/confirmation/:reservationId" element={<Confirmation/>}></Route>
+              <Route path="/shopconfirmation/:transactionId" element={<ShopConfirmation/>}></Route>
               <Route path="/:artistId/booking" element={<Booking/>}/>
+              <Route path="/:artistId/gallery" element={<Gallery/>}/>
+              <Route path="/:artistId/shop" element={<Shop/>}/>
+              <Route path="/:artistId/checkout" element={<Checkout/>}/>
             </Routes>
           </Main>
       </BrowserRouter>

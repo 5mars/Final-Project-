@@ -2,22 +2,22 @@ import styled from "styled-components"
 import Footer from "./Footer";
 import profile from "../unDraw/profile.svg"
 import profilePic from "../unDraw/profilePic.svg"
-import { FiMapPin, FiEdit } from "react-icons/fi";
+import { FiMapPin } from "react-icons/fi";
 import React, { useState, useEffect } from "react";
 import EditArtist from "./EditArtist";
 import { UserContext } from "./Context";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const ArtistProfile = () => {
 
 const [edit, setEdit] = useState(false);
 const [artist, setArtist] = useState(null)
-
-
-const handleEdit = () => {
-    setEdit(!edit)
-}
+const [followingValue, setFollowingValue] = useState(false);
+const {user} = useAuth0();
+const {currentUser} = React.useContext(UserContext);
 
 const {artistId} = useParams();
 
@@ -30,26 +30,42 @@ useEffect(()=> {
     })
 }, [])
 
+//fetch for follow 
+const handleSubmit = (e) => {
+    //patch but same format as a post 
+    e.preventDefault();
+    //PATCH in server 
+    fetch(`/api/${artistId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({following: artistId, email: user.email}),
+    })
+    .then(res => res.json())
+    .then((data) => {
+        console.log(data)
+        setFollowingValue(!followingValue)
+    })
+}
+    const set = new Set(currentUser.following);
+    
     return (
         <Container>
             <ProfileCard>
-                <TopDiv>
-                    {!edit ? <Title>Artist Profile</Title> : <Title>Edit Profile</Title>}
-                    <Button onClick={handleEdit}>
-                        <FiEdit size={25}/>
-                    </Button>
-                </TopDiv>
-
-        {!edit? 
-        <>
                 <ProfilePicImg src={profilePic} alt="Profile picture"/>
-                {edit && <EditArtist/>}
                 {artist ? <>
                 <Infos>
-                    <Name>{artist.name}</Name>
-                    <Text>{artist.gender}</Text>
-                    <Text>{artist.style}</Text>
-                    <a>shop url</a>
+                    <NameFollowDiv>
+                        <Name>{artist.name}</Name>
+                        {set.has(artist.name) === false ? 
+                        <FollowBtn onClick={handleSubmit}>Follow</FollowBtn> :
+                        <FollowedBtn onClick={handleSubmit}>Following</FollowedBtn>}
+                    </NameFollowDiv>
+                    <Text><Span>Gender:</Span> {artist.gender}</Text>
+                    <Text><Span>Style:</Span> {artist.style}</Text>
+                    <Text><Span>Studio:</Span> {artist.shop}</Text>
+                    <Text><Span>Shop URL:</Span> <a>URL</a></Text>
                     <Location>
                         <FiMapPin/>
                         <Text>{artist.location}</Text>
@@ -62,13 +78,13 @@ useEffect(()=> {
                 </About>
 
                 <BottomDiv>
-                    <Nav to="#">Shop</Nav>
+                    <Nav to={`/${artistId}/shop`}>Shop</Nav>
                     <Nav to={`/${artistId}/booking`}>Book Now</Nav>
-                    <Nav to="#">Gallery</Nav>
+                    <Nav to={`/${artistId}/gallery`}>Gallery</Nav>
                 </BottomDiv>
 </> : <Loading>Loading artist info...</Loading>}
-                </>
-                : <EditArtist/>}
+
+
             </ProfileCard>
 
 
@@ -85,7 +101,10 @@ useEffect(()=> {
 const Container = styled.div`
 padding: 0.5rem;
 `
-
+const Span = styled.span`
+color: #F65D5A;
+font-size: 18px;
+`
 const Loading = styled.h1`
 color: #F65D5A;
 text-align: center;
@@ -108,6 +127,35 @@ margin: 0;
 const Infos = styled.div`
 display: flex;
 flex-direction: column;
+`
+
+const NameFollowDiv = styled.div `
+display: flex; 
+align-items: center;
+gap: 0.5rem;
+`
+
+const FollowBtn = styled.button`
+border: none;
+background-color: #F65D5A;
+color: #E6E6E6;
+border-radius: 5px;
+cursor: pointer;
+
+&:hover {
+    background-color: #F98D8B;
+}
+`
+
+const FollowedBtn = styled.button`
+border: none;
+background-color: #F98D8B;
+color: #E6E6E6;
+border-radius: 5px;
+cursor: pointer;
+&:hover {
+    background-color: #F65D5A;
+}
 `
 const Name = styled.h3`
 `
@@ -132,7 +180,7 @@ color: gray;
 `
 
 const Text = styled.p`
-margin: 0;
+margin: 5px 0;
 `
 
 const Subtitle = styled.h3`

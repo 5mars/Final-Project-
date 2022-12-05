@@ -19,22 +19,23 @@ const Explore = () => {
     const [gender, setGender] = useState(null);
     const [location, setLocation] = useState(null);
     const [artists, setArtists] = useState([]);
-    // const [state, setState] = ({location: "", style: "", gender: ""})
+    const [following, setFollowing] = useState(false)
+
 
     //different handlechange for every criteria 
     const handleChangeStyle = (e) => {
         setStyle(e.target.value);
-        // setState({...state, style: e.target.value})
+
     };
 
     const handleChangeLocation = (e) => {
         setLocation(e.target.value);
-        // setState({...state, location: e.target.value})
+
     };
 
     const handleChangeGender = (e) => {
         setGender(e.target.value);
-        // setState({...state, gender: e.target.value})
+
     };
 
     //fetch that get all artists 
@@ -45,6 +46,7 @@ const Explore = () => {
             setArtists(data.data)
         })
     }, [])
+
 
     //gives me arrays of locations and styles 
     const byLocation = Object.values(artists.reduce((object, {location})=>{
@@ -62,26 +64,7 @@ const Explore = () => {
     const locationFilter = artists.filter((fil) => fil.location === location); 
     const styleFilter = artists.filter((fil) => fil.style === style);
     const genderFilter = artists.filter((fil) => fil.gender === gender);
-    
 
-    const mainFilter = (artistsArr) => {
-        const genre = [location, gender, style]
-        const filterGenre = genre.filter((fil) => fil !== null)
-        let artistFil
-        ["location", "style", "gender"].forEach((filterState) => {
-            artistFil = artists.filter(artist => {
-                console.log(artist[filterState])
-                console.log(filterState, "filter state here")
-                return artist[filterState] === filterState
-            })
-            console.log(artistFil)
-
-        })
-    }
-
-    useEffect(() => {
-        mainFilter()
-    }, [location, style, gender])
 
     return (
 
@@ -90,7 +73,7 @@ const Explore = () => {
             <>
                 <Title>Explore</Title>
                 <DropDownDiv>
-                    <Select onChange={handleChangeLocation}>
+                    <Select disabled onChange={handleChangeLocation}>
                         <option>By Location</option>
                         {artists && byLocation.map((loc) => {
                             return (
@@ -106,7 +89,7 @@ const Explore = () => {
                             )
                         })}
                     </Select>
-                    <Select onChange={handleChangeGender}>
+                    <Select disabled onChange={handleChangeGender}>
                         <option>By Gender</option>
                         <option>Male</option>
                         <option>Female</option>
@@ -114,14 +97,16 @@ const Explore = () => {
                     </Select>
                 </DropDownDiv>
                 <Main>
-                    {artists.map((artist) => {
+                    {styleFilter.map((artist) => {
                         return (
                         <Nav key={artists.name} to={`/${artist.name}`}>
                             <ArtistCard >
 
                                 <Left>
                                     <ProfilePic src={profilePic} alt="artist profile pic"/>
-                                    <h2>{artist.name}</h2>
+                                    <TopDiv>
+                                        <h2>{artist.name}</h2>
+                                    </TopDiv>
                                     <IconSection>
                                         <FiMapPin/>
                                         <Text>{artist.location}</Text>
@@ -145,12 +130,11 @@ const Explore = () => {
                                 <Right>
                                     <Title>Preview</Title>
                                     <PreviewDiv>
-                                        <Img src="" alt="Previews Image"/>
-                                        <Img src="" alt="Previews Image"/>
-                                        <Img src="" alt="Previews Image"/>
-                                        <Img src="" alt="Previews Image"/>
-                                        <Img src="" alt="Previews Image"/>
-                                        <Img src="" alt="Previews Image"/>
+                                        {artist.media.images.map((img) => {
+                                            return (
+                                                <Preview src={img}/>
+                                            )
+                                        })}
                                     </PreviewDiv>
                                 </Right>
                             </ArtistCard>
@@ -172,12 +156,24 @@ padding: 1rem;
 const Title = styled.h1`
     color: #F65D5A;
 `
+const TopDiv = styled.div`
+display: flex; 
+align-items: center;
+gap: 0.5rem;
+`
 const DropDownDiv = styled.div`
 display: flex;
 justify-content: space-between;
 align-items: center;
 margin: 0 20%;
 padding: 1rem;
+`
+
+const Preview = styled.img`
+width: 10rem;
+height: 10rem;
+border-radius: 5px;
+object-fit: scale-down;
 `
 const Nav = styled(NavLink)`
 text-decoration: none;
@@ -214,7 +210,6 @@ const Left = styled.div`
 display: flex;
 flex-direction: column;
 justify-content: center;
-/* border: 1px solid black; */
 min-width: 30%;
 `
 const Text = styled.p`
