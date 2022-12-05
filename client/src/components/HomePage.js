@@ -45,7 +45,7 @@ const Homepage = () => {
             <Section>
                 <Img src={fireworks} alt="Svg Image"/>
                 <TextDiv>
-                    <Text>Fortunately, <Logo>Tattoo</Logo> is here to save the day! </Text>
+                    <Text>Fortunately, <Logo>TattooWix</Logo> is here to save the day! </Text>
                 </TextDiv>
             </Section>
 
