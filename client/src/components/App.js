@@ -27,16 +27,15 @@ import ShopConfirmation from "./ShopConfirmation";
 
 const App = () => {
 
-  const {setCurrentUser, fetchUser} = React.useContext(UserContext);
-  const {isAuthenticated, user} = useAuth0();
-
-  useEffect(() => {
-      user && fetch(`/api/get-user/${user.email}`)
-      .then(res => res.json())
-      .then(data => {
-          setCurrentUser(data.data)
-      })
-  }, [user])
+  const {currentUser, setCurrentUser} = React.useContext(UserContext);
+  const {user} = useAuth0();
+  // useEffect(() => {
+  //     user && fetch(`/api/get-user/${user.email}`)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //         setCurrentUser(data.data)
+  //     })
+  // }, [user])
 
   return (
       <BrowserRouter>

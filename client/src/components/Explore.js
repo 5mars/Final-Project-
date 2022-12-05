@@ -19,8 +19,6 @@ const Explore = () => {
     const [gender, setGender] = useState(null);
     const [location, setLocation] = useState(null);
     const [artists, setArtists] = useState([]);
-    const [following, setFollowing] = useState(false)
-
 
     //different handlechange for every criteria 
     const handleChangeStyle = (e) => {
@@ -47,7 +45,6 @@ const Explore = () => {
         })
     }, [])
 
-
     //gives me arrays of locations and styles 
     const byLocation = Object.values(artists.reduce((object, {location})=>{
         object[location]={location}
@@ -62,9 +59,9 @@ const Explore = () => {
 
     //filters artists
     const locationFilter = artists.filter((fil) => fil.location === location); 
-    const styleFilter = artists.filter((fil) => fil.style === style);
     const genderFilter = artists.filter((fil) => fil.gender === gender);
-
+        //only this one works for now
+    const styleFilter = artists.filter((fil) => fil.style === style);
 
     return (
 

@@ -31,8 +31,8 @@ const Discover = () => {
                                     </TopDiv>
                                     {artist.media.images.map((img) => {
                                     return (
-                                        <NavLink to={`/${artist.name}`}>
-                                            <Img key={img} src={img}/>
+                                        <NavLink key={img} to={`/${artist.name}`}>
+                                            <Img src={img}/>
                                         </NavLink>
                                     )
                                 })}</div>
@@ -84,9 +84,7 @@ display: flex;
 align-items: center;
 gap: 1rem;
 `
-const PostDiv = styled.div`
 
-`
 const Text = styled.p`
 
 `

@@ -17,7 +17,7 @@ const [edit, setEdit] = useState(false);
 const [artist, setArtist] = useState(null)
 const [followingValue, setFollowingValue] = useState(false);
 const {user} = useAuth0();
-const {currentUser} = React.useContext(UserContext);
+const {currentUser, setCurrentUser} = React.useContext(UserContext);
 
 const {artistId} = useParams();
 
@@ -45,11 +45,11 @@ const handleSubmit = (e) => {
     .then(res => res.json())
     .then((data) => {
         console.log(data)
-        setFollowingValue(!followingValue)
+        setCurrentUser(currentUser)
     })
 }
-    const set = new Set(currentUser.following);
-    
+const set = new Set(currentUser.following);
+
     return (
         <Container>
             <ProfileCard>
