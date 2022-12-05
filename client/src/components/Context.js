@@ -7,6 +7,7 @@ export const UserContext = createContext({});
 export const UserProvider = ({children}) => {
     const {user} = useAuth0();
     const [currentUser, setCurrentUser] = useState(null);
+    const [refresh, setRefresh] = useState(false);
     useEffect(() => {
         user && fetch(`/api/get-user/${user.email}`)
         .then(res => res.json())
@@ -15,7 +16,7 @@ export const UserProvider = ({children}) => {
     })
 }, [user])
     return (
-        <UserContext.Provider value={{currentUser, setCurrentUser}}>
+        <UserContext.Provider value={{setRefresh, refresh, currentUser, setCurrentUser}}>
             {children}
         </UserContext.Provider>
     );

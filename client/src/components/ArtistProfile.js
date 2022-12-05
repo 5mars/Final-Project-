@@ -4,7 +4,6 @@ import profile from "../unDraw/profile.svg"
 import profilePic from "../unDraw/profilePic.svg"
 import { FiMapPin } from "react-icons/fi";
 import React, { useState, useEffect } from "react";
-import EditArtist from "./EditArtist";
 import { UserContext } from "./Context";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -15,9 +14,9 @@ const ArtistProfile = () => {
 
 const [edit, setEdit] = useState(false);
 const [artist, setArtist] = useState(null)
-const [followingValue, setFollowingValue] = useState(false);
+const [followingValue, setFollowingValue] = useState([]);
 const {user} = useAuth0();
-const {currentUser, setCurrentUser} = React.useContext(UserContext);
+const {currentUser, setCurrentUser, setRefresh, refresh} = React.useContext(UserContext);
 
 const {artistId} = useParams();
 
@@ -45,18 +44,23 @@ const handleSubmit = (e) => {
     .then(res => res.json())
     .then((data) => {
         console.log(data)
-        setCurrentUser(currentUser)
+        setCurrentUser({...currentUser, following: data.data})
+        setRefresh(!refresh)
     })
 }
-const set = new Set(currentUser.following);
-
+let set;
+if(currentUser) {
+    set = new Set(currentUser.following)
+};
+console.log(currentUser)
     return (
-        <Container>
+        <Container> {currentUser && <>
             <ProfileCard>
                 <ProfilePicImg src={profilePic} alt="Profile picture"/>
                 {artist ? <>
                 <Infos>
                     <NameFollowDiv>
+
                         <Name>{artist.name}</Name>
                         {set.has(artist.name) === false ? 
                         <FollowBtn onClick={handleSubmit}>Follow</FollowBtn> :
@@ -90,7 +94,7 @@ const set = new Set(currentUser.following);
 
             <CharDiv>
                 <ProfileImg src={profile} alt="Profile character"/>
-            </CharDiv> 
+            </CharDiv> </>}
             <Footer/>
         </Container>
     )
